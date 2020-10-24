@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -24,7 +25,7 @@ public class User {
     private String password;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private Phone[] phones;
+    List<Phone> phones;
 
     @CreationTimestamp
     private Date createdAt;
@@ -64,11 +65,11 @@ public class User {
         this.password = password;
     }
 
-    public Phone[] getPhones() {
+    public List<Phone> getPhones() {
         return phones;
     }
 
-    public void setPhones(Phone[] phones) {
+    public void setPhones(List<Phone> phones) {
         this.phones = phones;
     }
 
