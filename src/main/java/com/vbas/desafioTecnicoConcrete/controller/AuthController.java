@@ -5,6 +5,7 @@ import com.vbas.desafioTecnicoConcrete.model.ErrorMessage;
 import com.vbas.desafioTecnicoConcrete.model.User;
 import com.vbas.desafioTecnicoConcrete.repository.UserRepository;
 import com.vbas.desafioTecnicoConcrete.service.MyUserDetailService;
+import com.vbas.desafioTecnicoConcrete.service.UserService;
 import com.vbas.desafioTecnicoConcrete.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,7 +32,7 @@ public class AuthController {
     private JwtUtil jwtUtil;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
@@ -49,10 +50,11 @@ public class AuthController {
         final UserDetails userDetails = myUserDetails.loadUserByUsername(authenticationRequest.getEmail());
         final String jwt = jwtUtil.generateToken(userDetails);
 
-        User userdb = userRepository.findByEmail(authenticationRequest.getEmail());
+        User userdb = userService.getUserByEmail(authenticationRequest.getEmail());
         userdb.setLast_login(new Date());
         userdb.setToken(jwt);
-        userdb = userRepository.save(userdb);
+        System.out.println(jwt);
+        userdb = userService.createUpdateUser(userdb);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.APPLICATION_JSON)

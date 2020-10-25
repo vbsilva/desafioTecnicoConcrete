@@ -4,6 +4,7 @@ import com.vbas.desafioTecnicoConcrete.model.ErrorMessage;
 import com.vbas.desafioTecnicoConcrete.model.User;
 import com.vbas.desafioTecnicoConcrete.repository.UserRepository;
 import com.vbas.desafioTecnicoConcrete.service.MyUserDetailService;
+import com.vbas.desafioTecnicoConcrete.service.UserService;
 import com.vbas.desafioTecnicoConcrete.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
@@ -20,7 +21,7 @@ import java.util.Optional;
 public class RegisterController {
 
     @Autowired
-    UserRepository userRepository;
+    UserService userService;
 
     @Autowired
     JwtUtil jwtUtil;
@@ -32,7 +33,7 @@ public class RegisterController {
     @ResponseBody
     public ResponseEntity register(@RequestBody User user) {
 
-        if (userRepository.findByEmail(user.getEmail()) != null) {
+        if (userService.getUserByEmail(user.getEmail()) != null) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(new ErrorMessage("E-mail já existente"));
@@ -41,7 +42,7 @@ public class RegisterController {
         final UserDetails userDetails = new org.springframework.security.core.userdetails.User(user.getName(), user.getPassword(), new ArrayList<>());
         final String jwt = jwtUtil.generateToken(userDetails);
         user.setToken(jwt);
-        User userdb = userRepository.save(user);
+        User userdb = userService.createUpdateUser(user);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(userdb);
