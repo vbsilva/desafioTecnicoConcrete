@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Optional;
 
 @Service
 public class MyUserDetailService implements UserDetailsService {
@@ -19,16 +18,13 @@ public class MyUserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println("ANTES DA QUERY");
-        //com.vbas.desafioTecnicoConcrete.model.User userDb = userRepository.findByUsername(username);
-        com.vbas.desafioTecnicoConcrete.model.User userDb = userRepository.findByName(username);
-        System.out.println("Queryyyyyyyyyyyyyyyyyyyyy " + userDb.getPassword());
+        System.out.println("EMAILLLLLLLL " + username);
+        com.vbas.desafioTecnicoConcrete.model.User userDb = userRepository.findByEmail(username);
         if (userDb != null && userDb.getName() != null && userDb.getPassword() != null) {
             return new User(userDb.getName(), userDb.getPassword(), new ArrayList<>());
         } else {
             throw new UsernameNotFoundException("qqqqqqqqq");
         }
 
-        //return new User("foo", "foo", new ArrayList<>());
     }
 }
