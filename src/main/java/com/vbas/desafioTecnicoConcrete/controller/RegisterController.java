@@ -1,6 +1,6 @@
 package com.vbas.desafioTecnicoConcrete.controller;
 
-import com.vbas.desafioTecnicoConcrete.exception.ResourceNotFoundException;
+import com.vbas.desafioTecnicoConcrete.model.ErrorMessage;
 import com.vbas.desafioTecnicoConcrete.model.User;
 import com.vbas.desafioTecnicoConcrete.repository.UserRepository;
 import com.vbas.desafioTecnicoConcrete.service.MyUserDetailService;
@@ -35,7 +35,7 @@ public class RegisterController {
         if (userRepository.findByEmail(user.getEmail()) != null) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
                     .contentType(MediaType.APPLICATION_JSON)
-                    .body("E-mail já existente");
+                    .body(new ErrorMessage("E-mail já existente"));
         }
 
         final UserDetails userDetails = new org.springframework.security.core.userdetails.User(user.getName(), user.getPassword(), new ArrayList<>());

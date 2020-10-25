@@ -1,6 +1,7 @@
 package com.vbas.desafioTecnicoConcrete.controller;
 
 import com.vbas.desafioTecnicoConcrete.model.AuthModel;
+import com.vbas.desafioTecnicoConcrete.model.ErrorMessage;
 import com.vbas.desafioTecnicoConcrete.model.User;
 import com.vbas.desafioTecnicoConcrete.repository.UserRepository;
 import com.vbas.desafioTecnicoConcrete.service.MyUserDetailService;
@@ -42,7 +43,7 @@ public class AuthController {
         } catch (BadCredentialsException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .contentType(MediaType.APPLICATION_JSON)
-                    .body("Usuário e/ou senha inválidos");
+                    .body(new ErrorMessage("Usuário e/ou senha inválidos"));
         }
 
         final UserDetails userDetails = myUserDetails.loadUserByUsername(authenticationRequest.getEmail());
