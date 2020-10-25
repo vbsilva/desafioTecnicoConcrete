@@ -37,6 +37,7 @@ public class AuthController {
             throw new Exception("Usuário e/ou senha inválidos");
         }
 
+        System.out.println("PASSOU TRYCATCH");
         final UserDetails userDetails = myUserDetails.loadUserByUsername(authenticationRequest.getUsername());
         final String jwt = jwtUtil.generateToken(userDetails);
         return ResponseEntity.ok(jwt);

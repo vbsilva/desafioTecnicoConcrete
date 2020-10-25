@@ -21,6 +21,38 @@ public class User {
     @Column(name = "email")
     private String email;
 
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public Date getModified() {
+        return modified;
+    }
+
+    public void setModified(Date modified) {
+        this.modified = modified;
+    }
+
+    public Date getLast_login() {
+        return last_login;
+    }
+
+    public void setLast_login(Date last_login) {
+        this.last_login = last_login;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
     @Column(name = "password")
     private String password;
 
@@ -28,10 +60,16 @@ public class User {
     List<Phone> phones;
 
     @CreationTimestamp
-    private Date createdAt;
+    private Date created;
 
     @CreationTimestamp
-    private Date updatedAt;
+    private Date modified;
+
+    @CreationTimestamp
+    private Date last_login;
+
+    @Column(name = "token")
+    private String token;
 
     public long getId() {
         return id;
@@ -71,22 +109,6 @@ public class User {
 
     public void setPhones(List<Phone> phones) {
         this.phones = phones;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
 }
