@@ -1,5 +1,6 @@
 package com.vbas.desafioTecnicoConcrete.controller;
 
+import com.vbas.desafioTecnicoConcrete.model.ErrorMessage;
 import com.vbas.desafioTecnicoConcrete.model.User;
 import com.vbas.desafioTecnicoConcrete.model.UserDTO;
 import com.vbas.desafioTecnicoConcrete.service.UserService;
@@ -22,8 +23,19 @@ public class ProfileController {
     @GetMapping("/profile")
     @ResponseBody
     public ResponseEntity userProfile(@RequestHeader(name = "Authorization") String token) {
+
+        ResponseEntity<ErrorMessage> errorReturn = ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorMessage("Nao Autorizado"));
+
+        if (token == null) {
+            return errorReturn;
+        }
         String username = jwtUtil.extractUsername(token.substring(7));
         User userdb = userService.getUserByEmail(username);
+        if (userdb == null) {
+            return errorReturn;
+        }
         UserDTO userDTO = new UserDTO(userdb);
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.APPLICATION_JSON)
