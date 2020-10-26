@@ -1,6 +1,7 @@
 package com.vbas.desafioTecnicoConcrete.controller;
 
 import com.vbas.desafioTecnicoConcrete.model.User;
+import com.vbas.desafioTecnicoConcrete.model.UserDTO;
 import com.vbas.desafioTecnicoConcrete.service.UserService;
 import com.vbas.desafioTecnicoConcrete.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +24,10 @@ public class ProfileController {
     public ResponseEntity userProfile(@RequestHeader(name = "Authorization") String token) {
         String username = jwtUtil.extractUsername(token.substring(7));
         User userdb = userService.getUserByEmail(username);
+        UserDTO userDTO = new UserDTO(userdb);
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(userdb);
+                .body(userDTO);
     }
 
 

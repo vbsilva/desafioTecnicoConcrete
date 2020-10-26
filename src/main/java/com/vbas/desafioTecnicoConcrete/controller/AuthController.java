@@ -3,6 +3,7 @@ package com.vbas.desafioTecnicoConcrete.controller;
 import com.vbas.desafioTecnicoConcrete.model.AuthModel;
 import com.vbas.desafioTecnicoConcrete.model.ErrorMessage;
 import com.vbas.desafioTecnicoConcrete.model.User;
+import com.vbas.desafioTecnicoConcrete.model.UserDTO;
 import com.vbas.desafioTecnicoConcrete.repository.UserRepository;
 import com.vbas.desafioTecnicoConcrete.service.MyUserDetailService;
 import com.vbas.desafioTecnicoConcrete.service.UserService;
@@ -56,8 +57,10 @@ public class AuthController {
         System.out.println(jwt);
         userdb = userService.createUpdateUser(userdb);
 
+        UserDTO userDTO = new UserDTO(userdb);
+
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(userdb);
+                .body(userDTO);
     }
 }
