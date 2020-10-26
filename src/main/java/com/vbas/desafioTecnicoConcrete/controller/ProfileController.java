@@ -27,6 +27,7 @@ public class ProfileController {
 
         String username = jwtUtil.extractUsername(token.substring(7));
         User userdb = userService.getUserByEmail(username);
+        
         if (userdb == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .contentType(MediaType.APPLICATION_JSON)
