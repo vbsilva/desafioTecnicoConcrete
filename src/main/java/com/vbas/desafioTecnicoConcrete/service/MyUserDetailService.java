@@ -14,16 +14,15 @@ import java.util.ArrayList;
 public class MyUserDetailService implements UserDetailsService {
 
     @Autowired
-    UserRepository userRepository;
+    UserService userService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println("EMAILLLLLLLL " + username);
-        com.vbas.desafioTecnicoConcrete.model.User userDb = userRepository.findByEmail(username);
-        if (userDb != null && userDb.getName() != null && userDb.getPassword() != null) {
-            return new User(userDb.getName(), userDb.getPassword(), new ArrayList<>());
+        com.vbas.desafioTecnicoConcrete.model.User userDb = userService.getUserByEmail(username);
+        if (userDb != null && userDb.getEmail() != null && userDb.getPassword() != null) {
+            return new User(userDb.getEmail(), userDb.getPassword(), new ArrayList<>());
         } else {
-            throw new UsernameNotFoundException("qqqqqqqqq");
+            throw new UsernameNotFoundException("Username not found");
         }
 
     }
