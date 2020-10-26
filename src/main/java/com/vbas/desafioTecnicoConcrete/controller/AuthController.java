@@ -54,7 +54,6 @@ public class AuthController {
         User userdb = userService.getUserByEmail(authenticationRequest.getEmail());
         userdb.setLast_login(new Date());
         userdb.setToken(jwt);
-        System.out.println(jwt);
         userdb = userService.createUpdateUser(userdb);
 
         UserDTO userDTO = new UserDTO(userdb);

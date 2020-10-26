@@ -1,6 +1,7 @@
 package com.vbas.desafioTecnicoConcrete.exception;
 
 import com.vbas.desafioTecnicoConcrete.model.ErrorMessage;
+import com.vbas.desafioTecnicoConcrete.model.User;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,11 +13,13 @@ import org.springframework.web.context.request.WebRequest;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(value = {ExpiredJwtException.class})
-    public ResponseEntity<?> handleExpiredJwt(ExpiredJwtException exception, WebRequest request) {
+    @ExceptionHandler(UserServiceException.class)
+    public ResponseEntity<?> handleUserServiceException(UserServiceException exception, WebRequest request) {
         ErrorMessage erro = new ErrorMessage(exception.getMessage());
-        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(erro);
     }
+
+
 }
